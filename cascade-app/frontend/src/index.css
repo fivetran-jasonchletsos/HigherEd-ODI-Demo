@@ -1,0 +1,213 @@
+@import "tailwindcss";
+
+/*
+ * Cascade University — academic press design system.
+ *
+ * Visual language references university press publications and
+ * Pacific Northwest institutional aesthetics: ivy green + bronze
+ * accent + cream paper. Cormorant Garamond for display, Libre
+ * Caslon Text for serif body, Inter for sans-serif chrome.
+ *
+ * Brand color (Fivetran / Snowflake) is intentionally absent — this
+ * is the university's portal. ODI lives in the architecture.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Surfaces */
+  --paper:         #fafaf5;
+  --paper-deep:    #f1efe2;
+  --card:          #ffffff;
+  --ivy-deep:      #14532d;
+  --ivy:           #166534;
+  --ivy-soft:      #15803d;
+  --hairline:      #d8d4c2;
+  --hairline-soft: #ece8d6;
+  --ink-strong:    #1c1917;
+  --ink:           #292524;
+  --ink-muted:     #57534e;
+  --ink-soft:      #78716c;
+
+  /* Cascade bronze accent */
+  --bronze:        #92400e;
+  --bronze-bright: #b45309;
+  --bronze-dim:    #78350f;
+  --bronze-bg:     #fef3e6;
+
+  /* Cream / parchment */
+  --cream:         #fafaf5;
+  --cream-deep:    #f5f4e6;
+
+  /* Status palette */
+  --good:          #15803d;
+  --good-bg:       #f0fdf4;
+  --garnet:        #be123c;
+  --garnet-bg:     #fff1f4;
+  --amber:         #b45309;
+  --amber-bg:      #fffbeb;
+  --slate:         #475569;
+  --slate-bg:      #f8fafc;
+
+  /* ODI layer colors */
+  --bronze-layer:    #92400e;
+  --bronze-layer-bg: #fef3e6;
+  --silver-layer:    #6b7280;
+  --silver-layer-bg: #f8fafc;
+  --gold-layer:      #b8975c;
+  --gold-layer-bg:   #faf3e1;
+}
+
+@theme {
+  --color-ivy-50:  #f0fdf4;
+  --color-ivy-100: #dcfce7;
+  --color-ivy-200: #bbf7d0;
+  --color-ivy-300: #86efac;
+  --color-ivy-400: #4ade80;
+  --color-ivy-500: #22c55e;
+  --color-ivy-600: #16a34a;
+  --color-ivy-700: #15803d;
+  --color-ivy-800: #166534;
+  --color-ivy-900: #14532d;
+
+  --color-bronze-50:  #fef9ec;
+  --color-bronze-100: #fdedc9;
+  --color-bronze-200: #fbd98f;
+  --color-bronze-300: #f7be55;
+  --color-bronze-400: #f3a32d;
+  --color-bronze-500: #d97706;
+  --color-bronze-600: #b45309;
+  --color-bronze-700: #92400e;
+  --color-bronze-800: #78350f;
+
+  --font-sans:  "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Cormorant Garamond", "Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --font-body-serif: "Libre Caslon Text", Georgia, "Times New Roman", serif;
+  --font-mono:  "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+html, body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, .font-serif {
+  font-family: "Cormorant Garamond", "Libre Caslon Text", Georgia, "Times New Roman", serif;
+  letter-spacing: -0.01em;
+}
+.font-body-serif {
+  font-family: "Libre Caslon Text", Georgia, "Times New Roman", serif;
+}
+h1 { color: var(--ink-strong); }
+
+.institutional-rail {
+  height: 2px;
+  background: linear-gradient(90deg, var(--bronze-dim) 0%, var(--bronze-bright) 50%, var(--bronze-dim) 100%);
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.125rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 1px solid transparent;
+  font-family: "Inter", sans-serif;
+}
+.status-pill::before {
+  content: "";
+  display: inline-block;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 9999px;
+  background: currentColor;
+}
+.status-pill.good     { background: var(--good-bg);   color: var(--good);   border-color: #bbf7d0; }
+.status-pill.garnet   { background: var(--garnet-bg); color: var(--garnet); border-color: #fecdd3; }
+.status-pill.amber    { background: var(--amber-bg);  color: var(--amber);  border-color: #fde68a; }
+.status-pill.neutral  { background: var(--paper-deep);color: var(--ink-muted); border-color: var(--hairline); }
+.status-pill.ivy      { background: #ecfdf5;          color: var(--ivy);    border-color: #a7f3d0; }
+.status-pill.bronze   { background: var(--bronze-bg); color: var(--bronze); border-color: #fed7aa; }
+
+.layer-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.1875rem 0.625rem;
+  border-radius: 0.25rem;
+  font-size: 0.625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-family: "JetBrains Mono", monospace;
+}
+.layer-chip.bronze { background: var(--bronze-layer-bg); color: var(--bronze-layer); border: 1px solid #fed7aa; }
+.layer-chip.silver { background: var(--silver-layer-bg); color: var(--silver-layer); border: 1px solid #e2e8f0; }
+.layer-chip.gold   { background: var(--gold-layer-bg);   color: var(--gold-layer);   border: 1px solid #ebd9a3; }
+
+.research-card {
+  background: var(--card);
+  border: 1px solid var(--hairline);
+  border-radius: 0.375rem;
+  box-shadow: 0 1px 2px rgba(20, 83, 45, 0.04);
+}
+
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--bronze);
+}
+.eyebrow-light {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #fbd98f;
+}
+
+.dropcap::first-letter {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 3.25em;
+  float: left;
+  line-height: 0.85;
+  padding-right: 0.08em;
+  padding-top: 0.06em;
+  color: var(--ivy-deep);
+  font-weight: 600;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--paper-deep); }
+::-webkit-scrollbar-thumb { background: #cbc5b3; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #a39c89; }
+
+*:focus-visible {
+  outline: 2px solid var(--bronze);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.tabular { font-variant-numeric: tabular-nums; }
+
+.mono {
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.diploma-rule {
+  border: none;
+  border-top: 1px solid var(--bronze);
+  border-bottom: 1px solid var(--bronze);
+  height: 4px;
+  background: transparent;
+}

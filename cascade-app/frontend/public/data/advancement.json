@@ -1,0 +1,51 @@
+{
+  "fiscal_year": "FY2026",
+  "as_of": "2026-05-15",
+  "annual_fund": {
+    "raised_ytd_usd": 41200000,
+    "goal_usd": 52000000,
+    "donors_ytd": 19840,
+    "alumni_donors_ytd": 14620,
+    "alumni_giving_rate_pct": 11.8,
+    "new_donors_ytd": 3120,
+    "lapsed_recovered": 1842,
+    "avg_gift_usd": 612,
+    "monthly_trend": [
+      { "month": "Jul 2025", "raised": 2840000 },
+      { "month": "Aug 2025", "raised": 3120000 },
+      { "month": "Sep 2025", "raised": 3680000 },
+      { "month": "Oct 2025", "raised": 4220000 },
+      { "month": "Nov 2025", "raised": 4480000 },
+      { "month": "Dec 2025", "raised": 9120000 },
+      { "month": "Jan 2026", "raised": 3340000 },
+      { "month": "Feb 2026", "raised": 3140000 },
+      { "month": "Mar 2026", "raised": 2860000 },
+      { "month": "Apr 2026", "raised": 2680000 },
+      { "month": "May 2026", "raised": 1720000 }
+    ]
+  },
+  "major_gifts": {
+    "active_pipeline_count": 218,
+    "pipeline_usd": 142000000,
+    "closed_ytd_usd": 38600000,
+    "closed_count": 14,
+    "expected_close_q4_usd": 24800000,
+    "ai_flagged_opportunities": 42
+  },
+  "planned_giving": {
+    "pipeline_count": 312,
+    "pipeline_estimated_usd": 480000000,
+    "new_intents_ytd": 38,
+    "realized_ytd_usd": 18400000
+  },
+  "donor_retention": {
+    "overall_pct": 67.4,
+    "five_year_donors_pct": 82.1,
+    "first_time_to_second_pct": 41.6
+  },
+  "ai_opportunities": [
+    { "rank": 1, "donor_segment": "Engineering alumni, 2008–2014, equity event in 2025", "size": 64, "expected_avg_ask_usd": 250000, "rationale": "LinkedIn signals + tax public records suggest 64 alumni recently liquidated equity. Capacity score >85 percentile." },
+    { "rank": 2, "donor_segment": "Multi-year annual fund + planned-gift inquiries",       "size": 48, "expected_avg_ask_usd": 180000, "rationale": "Have given 5+ consecutive years and opened planned-giving collateral in the last 90 days." },
+    { "rank": 3, "donor_segment": "Lapsed major donors, 2018–2022, NW-based",                 "size": 22, "expected_avg_ask_usd": 350000, "rationale": "Last gift averaged $280K. No outreach contact logged in 14 months. Two recently attended on-campus events." }
+  ]
+}

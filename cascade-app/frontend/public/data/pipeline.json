@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-05-20T13:00:00Z",
+  "connectors": [
+    { "name": "Banner SIS (Ellucian)",        "type": "Database connector, Oracle CDC", "status": "healthy", "rows_24h": 184200,  "lag_seconds": 28,  "last_sync": "2026-05-20T12:58:00Z" },
+    { "name": "Workday HCM",                  "type": "Workday RaaS",                   "status": "healthy", "rows_24h": 41800,   "lag_seconds": 60,  "last_sync": "2026-05-20T12:57:00Z" },
+    { "name": "Workday Financials",           "type": "Workday RaaS",                   "status": "healthy", "rows_24h": 72400,   "lag_seconds": 60,  "last_sync": "2026-05-20T12:57:00Z" },
+    { "name": "Salesforce Education Cloud",   "type": "Salesforce, REST + bulk",        "status": "healthy", "rows_24h": 98600,   "lag_seconds": 45,  "last_sync": "2026-05-20T12:58:00Z" },
+    { "name": "Canvas LMS",                   "type": "Canvas Data 2 API",              "status": "healthy", "rows_24h": 412800,  "lag_seconds": 90,  "last_sync": "2026-05-20T12:56:00Z" },
+    { "name": "Slate (admissions CRM)",       "type": "Slate REST connector",           "status": "warning", "rows_24h": 64200,   "lag_seconds": 480, "last_sync": "2026-05-20T12:48:00Z" },
+    { "name": "Cayuse Research IS",           "type": "REST connector, custom SDK",     "status": "healthy", "rows_24h": 12400,   "lag_seconds": 120, "last_sync": "2026-05-20T12:56:00Z" }
+  ],
+  "layers": [
+    { "layer": "bronze", "tables": 28, "rows":  984000000, "bytes": 3420000000000, "models": 0,  "note": "Raw landing from Fivetran, append-only Iceberg" },
+    { "layer": "silver", "tables": 22, "rows":  742000000, "bytes": 2860000000000, "models": 64, "note": "Conformed entities, students, courses, grants, gifts, employees" },
+    { "layer": "gold",   "tables": 14, "rows":  186000000, "bytes": 2460000000000, "models": 78, "note": "Business marts powering CIO and VP-Enrollment dashboards" }
+  ],
+  "dbt_runs_last_24h": [
+    { "model": "gold.fct_application_funnel",     "status": "pass", "rows": 184200, "duration_s": 142 },
+    { "model": "gold.fct_yield_prediction",       "status": "pass", "rows": 13688,  "duration_s": 86  },
+    { "model": "gold.fct_at_risk_students",       "status": "pass", "rows": 24187,  "duration_s": 184 },
+    { "model": "gold.fct_research_grant_pipeline","status": "pass", "rows": 384,    "duration_s": 28  },
+    { "model": "gold.dim_alumni_capacity_score",  "status": "pass", "rows": 218600, "duration_s": 312 },
+    { "model": "gold.fct_tuition_discount",       "status": "pass", "rows": 24187,  "duration_s": 64  }
+  ],
+  "failure_simulator": {
+    "enabled": true,
+    "scenario": "Slate connector slowed due to upstream API rate limit, lag 8 minutes",
+    "impact": "Yield prediction agent operating on data 8 minutes stale, no SLA breach",
+    "auto_remediation": "Fivetran exponential backoff retry, recovery expected within 4 minutes"
+  }
+}

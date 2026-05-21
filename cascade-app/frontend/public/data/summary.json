@@ -1,0 +1,27 @@
+{
+  "generated_at": "2026-05-20T13:00:00Z",
+  "source": "demo",
+  "institution": "Cascade University",
+  "fiscal_year": "FY2026",
+  "kpis": {
+    "total_students": 24187,
+    "undergrad": 18142,
+    "grad": 6045,
+    "faculty_ft": 1486,
+    "faculty_pt": 612,
+    "rd_expenditures_usd": 487300000,
+    "retention_first_to_second": 91.4,
+    "six_year_graduation": 84.1,
+    "alumni_giving_rate_pct": 11.8,
+    "endowment_usd": 2840000000,
+    "operating_budget_usd": 1400000000,
+    "alumni_living": 218600
+  },
+  "lake": {
+    "iceberg_table_count": 64,
+    "snowflake_warehouses": 4,
+    "s3_bytes": 8740000000000,
+    "connectors": 7,
+    "dbt_models": 142
+  }
+}

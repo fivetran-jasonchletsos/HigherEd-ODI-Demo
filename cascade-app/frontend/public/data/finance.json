@@ -1,0 +1,37 @@
+{
+  "fiscal_year": "FY2026",
+  "as_of": "2026-05-15",
+  "operating_budget": {
+    "total_usd": 1400000000,
+    "by_category": [
+      { "category": "Instruction",                "amount_usd": 462000000, "pct": 33.0 },
+      { "category": "Research",                   "amount_usd": 280000000, "pct": 20.0 },
+      { "category": "Student services + advising","amount_usd": 126000000, "pct": 9.0 },
+      { "category": "Academic support + library", "amount_usd": 98000000,  "pct": 7.0 },
+      { "category": "Institutional support",      "amount_usd": 154000000, "pct": 11.0 },
+      { "category": "Auxiliary (housing, dining)","amount_usd": 168000000, "pct": 12.0 },
+      { "category": "Facilities + utilities",     "amount_usd": 84000000,  "pct": 6.0 },
+      { "category": "Debt service",               "amount_usd": 28000000,  "pct": 2.0 }
+    ]
+  },
+  "tuition": {
+    "gross_tuition_revenue_usd": 612000000,
+    "institutional_aid_usd": 268000000,
+    "tuition_discount_rate_pct": 43.8,
+    "tuition_discount_rate_prior_pct": 41.6,
+    "net_tuition_revenue_usd": 344000000
+  },
+  "endowment": {
+    "market_value_usd": 2840000000,
+    "ytd_return_pct": 6.4,
+    "spending_rate_pct": 4.5,
+    "distribution_ytd_usd": 127800000,
+    "10yr_annualized_pct": 8.2
+  },
+  "deferred_maintenance": {
+    "backlog_usd": 312000000,
+    "annual_burn_usd": 84000000,
+    "fci_index": 0.071,
+    "buildings_with_critical_systems_count": 14
+  }
+}

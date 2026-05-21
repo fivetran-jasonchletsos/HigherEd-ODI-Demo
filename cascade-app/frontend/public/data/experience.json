@@ -1,0 +1,40 @@
+{
+  "as_of": "2026-05-18",
+  "nps": {
+    "overall": 38,
+    "first_year": 44,
+    "sophomore": 32,
+    "junior": 34,
+    "senior": 42,
+    "graduate": 36,
+    "trend_4q": [
+      { "quarter": "FY26 Q1", "nps": 34 },
+      { "quarter": "FY26 Q2", "nps": 35 },
+      { "quarter": "FY26 Q3", "nps": 36 },
+      { "quarter": "FY26 Q4", "nps": 38 }
+    ]
+  },
+  "complaint_categories": [
+    { "category": "Financial aid award timing",    "tickets_90d": 412, "trend_pct": 12.6 },
+    { "category": "Advising appointment wait time",  "tickets_90d": 386, "trend_pct": 8.2  },
+    { "category": "IT help desk, Canvas access",      "tickets_90d": 312, "trend_pct": -4.1 },
+    { "category": "Residence hall maintenance",       "tickets_90d": 248, "trend_pct": 2.4  },
+    { "category": "Dining hours and quality",         "tickets_90d": 196, "trend_pct": -1.8 },
+    { "category": "Registrar holds / transcript",     "tickets_90d": 178, "trend_pct": 3.6  },
+    { "category": "Parking + transportation",        "tickets_90d": 144, "trend_pct": 5.2  }
+  ],
+  "residence_halls": {
+    "beds_total": 9840,
+    "beds_occupied": 9412,
+    "utilization_pct": 95.6,
+    "waitlist_count": 184,
+    "fall_2026_returning_intent_pct": 78.4
+  },
+  "advising_capacity": {
+    "advisors_ft": 86,
+    "students_per_advisor": 281,
+    "appointments_last_30d": 11420,
+    "avg_wait_days": 4.8,
+    "wait_target_days": 3.0
+  }
+}

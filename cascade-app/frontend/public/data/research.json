@@ -1,0 +1,36 @@
+{
+  "fiscal_year": "FY2026",
+  "as_of": "2026-05-15",
+  "grants": {
+    "awards_ytd_usd": 312700000,
+    "awards_ytd_count": 384,
+    "proposals_submitted_ytd": 612,
+    "proposals_pending": 148,
+    "success_rate_pct": 38.6,
+    "fa_recovery_ytd_usd": 71400000,
+    "fa_recovery_rate_pct": 56.2,
+    "deadlines_this_week": 11,
+    "due_friday_critical": 3
+  },
+  "by_agency": [
+    { "agency": "NSF",  "awards_usd": 96400000, "proposals": 184, "success_pct": 41.8, "avg_award_usd": 612000 },
+    { "agency": "NIH",  "awards_usd": 118200000,"proposals": 142, "success_pct": 39.4, "avg_award_usd": 1240000 },
+    { "agency": "DOE",  "awards_usd": 48600000, "proposals": 86,  "success_pct": 36.0, "avg_award_usd": 980000 },
+    { "agency": "NEH",  "awards_usd": 7200000,  "proposals": 42,  "success_pct": 28.6, "avg_award_usd": 320000 },
+    { "agency": "NASA", "awards_usd": 21800000, "proposals": 38,  "success_pct": 34.2, "avg_award_usd": 720000 },
+    { "agency": "DOD",  "awards_usd": 14400000, "proposals": 48,  "success_pct": 31.3, "avg_award_usd": 540000 },
+    { "agency": "Industry / Foundation", "awards_usd": 6100000, "proposals": 72, "success_pct": 22.2, "avg_award_usd": 180000 }
+  ],
+  "top_pis": [
+    { "pi": "Dr. Lena Okafor",         "department": "Bioengineering",          "awards_usd": 14800000, "proposals": 6, "active_grants": 9 },
+    { "pi": "Dr. Marcus Chen",         "department": "Computer Science",        "awards_usd": 11200000, "proposals": 5, "active_grants": 7 },
+    { "pi": "Dr. Sarah Tully",         "department": "Oceanography",            "awards_usd": 9600000,  "proposals": 4, "active_grants": 6 },
+    { "pi": "Dr. Aman Verma",          "department": "Materials Science",       "awards_usd": 8400000,  "proposals": 5, "active_grants": 5 },
+    { "pi": "Dr. Priya Subramanian",   "department": "Public Health",           "awards_usd": 7900000,  "proposals": 4, "active_grants": 7 },
+    { "pi": "Dr. James Whitcombe",     "department": "Chemistry",               "awards_usd": 7200000,  "proposals": 3, "active_grants": 5 },
+    { "pi": "Dr. Maria Delgado",       "department": "Neuroscience",            "awards_usd": 6800000,  "proposals": 4, "active_grants": 6 },
+    { "pi": "Dr. Henrik Olsen",        "department": "Atmospheric Sciences",    "awards_usd": 6200000,  "proposals": 3, "active_grants": 4 },
+    { "pi": "Dr. Adwoa Mensah",        "department": "Public Policy",           "awards_usd": 5400000,  "proposals": 3, "active_grants": 4 },
+    { "pi": "Dr. Robert Tanaka",       "department": "Mechanical Engineering",  "awards_usd": 4900000,  "proposals": 4, "active_grants": 5 }
+  ]
+}

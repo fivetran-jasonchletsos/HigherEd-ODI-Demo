@@ -1,0 +1,52 @@
+{
+  "as_of": "2026-05-18",
+  "retention": {
+    "first_to_second_year_pct": 91.4,
+    "first_to_second_year_target_pct": 92.0,
+    "four_year_graduation_pct": 71.2,
+    "six_year_graduation_pct": 84.1,
+    "transfer_retention_pct": 86.3,
+    "underrepresented_retention_pct": 87.9,
+    "pell_eligible_retention_pct": 88.4,
+    "trend_first_to_second_5yr": [
+      { "year": "2021-22", "pct": 89.2 },
+      { "year": "2022-23", "pct": 90.1 },
+      { "year": "2023-24", "pct": 90.8 },
+      { "year": "2024-25", "pct": 91.1 },
+      { "year": "2025-26", "pct": 91.4 }
+    ]
+  },
+  "dfw_rates": [
+    { "course": "CHEM 121 · General Chemistry I",      "enrolled": 612, "dfw_pct": 28.4, "trend": "up"   },
+    { "course": "MATH 151 · Calculus I",                "enrolled": 884, "dfw_pct": 24.1, "trend": "up"   },
+    { "course": "ECON 201 · Microeconomics",            "enrolled": 540, "dfw_pct": 19.8, "trend": "flat" },
+    { "course": "PHYS 211 · Physics for Engineers",     "enrolled": 412, "dfw_pct": 22.6, "trend": "flat" },
+    { "course": "BIOL 220 · Organismal Biology",        "enrolled": 386, "dfw_pct": 17.2, "trend": "down" },
+    { "course": "CS 161 · Intro to Programming",        "enrolled": 1042,"dfw_pct": 14.8, "trend": "down" },
+    { "course": "ENGL 110 · College Composition",       "enrolled": 1480,"dfw_pct": 8.4,  "trend": "flat" }
+  ],
+  "at_risk": {
+    "total_flagged": 1204,
+    "newly_flagged_this_week": 87,
+    "by_risk_tier": [
+      { "tier": "Critical, immediate outreach", "count": 184 },
+      { "tier": "High",  "count": 412 },
+      { "tier": "Moderate", "count": 608 }
+    ],
+    "by_driver": [
+      { "driver": "Missed Canvas assignments 3+ in row", "count": 482 },
+      { "driver": "Midterm grade C- or below",            "count": 386 },
+      { "driver": "Stopped LMS login (>7 days)",          "count": 248 },
+      { "driver": "Financial aid hold",                   "count": 211 },
+      { "driver": "Faculty early alert submitted",        "count": 194 }
+    ]
+  },
+  "agent_recommendation": {
+    "name": "Advising Outreach Agent",
+    "model": "Snowflake Cortex Agent · claude-opus-4.7",
+    "last_run": "2026-05-20T07:02:00Z",
+    "summary": "1,204 students currently exhibit two or more early-alert signals. 184 require immediate advising contact; predicted persistence lift if contacted in 7 days: +18.4%. Highest-leverage course is CHEM 121 — three sections show DFW above 30%; recommend pairing supplemental instruction with advising outreach.",
+    "outreach_queue": 184,
+    "expected_lift_persistence_pct": 18.4
+  }
+}

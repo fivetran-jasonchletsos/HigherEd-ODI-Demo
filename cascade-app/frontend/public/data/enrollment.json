@@ -1,0 +1,48 @@
+{
+  "cycle": "Fall 2026 admit",
+  "as_of": "2026-05-15",
+  "funnel": {
+    "applications_received": 38420,
+    "applications_completed": 34112,
+    "admitted": 13688,
+    "deposits": 4214,
+    "target_deposits": 4400,
+    "admit_rate_pct": 40.1,
+    "yield_rate_pct": 30.8,
+    "yield_target_pct": 32.1,
+    "melt_rate_pct": 7.4,
+    "melt_rate_prior_pct": 5.9,
+    "deposit_to_enroll_gap": 186
+  },
+  "year_over_year": [
+    { "cycle": "Fall 2022", "applications": 30210, "admitted": 12440, "deposits": 4080, "yield_pct": 32.8, "melt_pct": 5.2 },
+    { "cycle": "Fall 2023", "applications": 32560, "admitted": 13110, "deposits": 4112, "yield_pct": 31.4, "melt_pct": 5.6 },
+    { "cycle": "Fall 2024", "applications": 35140, "admitted": 13290, "deposits": 4198, "yield_pct": 31.6, "melt_pct": 5.8 },
+    { "cycle": "Fall 2025", "applications": 36980, "admitted": 13510, "deposits": 4256, "yield_pct": 31.5, "melt_pct": 5.9 },
+    { "cycle": "Fall 2026", "applications": 38420, "admitted": 13688, "deposits": 4214, "yield_pct": 30.8, "melt_pct": 7.4 }
+  ],
+  "by_college": [
+    { "college": "Arts & Sciences",     "applications": 14820, "admitted": 6210, "deposits": 1684, "yield_pct": 27.1, "yield_target_pct": 29.0, "median_aid_award": 28400 },
+    { "college": "Engineering",         "applications": 9840,  "admitted": 2890, "deposits": 1142, "yield_pct": 39.5, "yield_target_pct": 38.0, "median_aid_award": 32100 },
+    { "college": "Business",            "applications": 7320,  "admitted": 2410, "deposits": 712,  "yield_pct": 29.5, "yield_target_pct": 32.0, "median_aid_award": 24600 },
+    { "college": "Education",           "applications": 2940,  "admitted": 1180, "deposits": 348,  "yield_pct": 29.5, "yield_target_pct": 31.0, "median_aid_award": 26900 },
+    { "college": "Nursing",             "applications": 3500,  "admitted": 998,  "deposits": 328,  "yield_pct": 32.9, "yield_target_pct": 34.0, "median_aid_award": 30800 }
+  ],
+  "geographic_mix": [
+    { "region": "Pacific Northwest",  "deposits": 1812, "pct": 43.0 },
+    { "region": "California",         "deposits": 884,  "pct": 21.0 },
+    { "region": "Mountain West",      "deposits": 422,  "pct": 10.0 },
+    { "region": "Northeast",          "deposits": 380,  "pct": 9.0 },
+    { "region": "Midwest",            "deposits": 296,  "pct": 7.0 },
+    { "region": "South",              "deposits": 168,  "pct": 4.0 },
+    { "region": "International",      "deposits": 252,  "pct": 6.0 }
+  ],
+  "agent_recommendation": {
+    "name": "Yield Prediction Agent",
+    "model": "Snowflake Cortex · claude-opus-4.7",
+    "last_run": "2026-05-20T06:14:00Z",
+    "summary": "Yield is tracking 130 bps below target with melt up 150 bps year-over-year. Identified 412 admitted students with high propensity to commit if contacted within the next 14 days.",
+    "outreach_queue": 412,
+    "expected_lift_deposits": 96
+  }
+}
