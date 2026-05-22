@@ -41,12 +41,14 @@ export default function EnrollmentPage() {
               <div className="col-span-4 text-sm font-semibold text-[var(--ink)]">{row.stage}</div>
               <div className="col-span-6 h-7 bg-[var(--paper-deep)] rounded-sm overflow-hidden relative">
                 <div
-                  className="h-full"
+                  className="h-full relative"
                   style={{
                     width: `${row.pct}%`,
                     background: i === funnel.length-1 ? 'var(--bronze)' : 'var(--ivy)',
                   }}
-                />
+                >
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.18) 100%)' }} />
+                </div>
               </div>
               <div className="col-span-2 text-right">
                 <div className="font-serif text-lg font-semibold text-[var(--ink-strong)] tabular">{formatNumber(row.count)}</div>
@@ -118,9 +120,9 @@ export default function EnrollmentPage() {
                 <span className="status-pill bronze">{data.agent_recommendation.name}</span>
                 <span className="mono text-xs text-[var(--ink-soft)]">{data.agent_recommendation.model}</span>
               </div>
-              <h3 className="font-serif text-2xl font-semibold text-[var(--ink-strong)] mt-2">
+              <blockquote className="pull-quote mt-2">
                 "Contact these 412 admits within 14 days, expected lift +96 deposits."
-              </h3>
+              </blockquote>
               <p className="mt-3 text-[var(--ink-muted)] leading-relaxed font-body-serif text-lg">
                 {data.agent_recommendation.summary}
               </p>

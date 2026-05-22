@@ -33,7 +33,7 @@ export default function SuccessPage() {
         <div className="research-card p-6 lg:col-span-2">
           <div className="eyebrow mb-2">Retention, five-year trend</div>
           <h3 className="font-serif text-2xl font-semibold text-[var(--ink-strong)] mb-4">First-to-second year, undergraduate cohort</h3>
-          <div className="h-40 mb-4">
+          <div className="h-40 mb-4 rounded-sm overflow-hidden" style={{ background: 'linear-gradient(180deg, var(--paper) 0%, var(--paper-deep) 100%)' }}>
             <Sparkline values={retentionTrend} width={700} height={160} stroke="var(--ivy-deep)" fill="var(--ivy-deep)" strokeWidth={2.5} className="w-full h-full" />
           </div>
           <div className="grid grid-cols-5 gap-2 text-center">
@@ -88,6 +88,7 @@ export default function SuccessPage() {
       </section>
 
       {/* At-risk */}
+      <hr className="rule-ornament" />
       <section className="mb-12">
         <h2 className="font-serif text-2xl font-semibold text-[var(--ink-strong)] mb-4 border-b border-[var(--hairline)] pb-2">At-risk roster</h2>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">

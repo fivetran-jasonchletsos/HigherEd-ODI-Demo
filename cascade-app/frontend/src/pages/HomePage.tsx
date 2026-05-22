@@ -38,7 +38,7 @@ export default function HomePage() {
               <h1 className="font-serif text-5xl sm:text-7xl font-semibold text-white leading-[0.95] tracking-tight">
                 One transcript.<br />
                 <span className="text-[#fbd98f] italic">Every system.</span><br />
-                Every agent.
+                <span className="tracking-wider">Every agent.</span>
               </h1>
               <p className="mt-6 text-base sm:text-lg text-white/80 max-w-2xl leading-relaxed font-body-serif">
                 Banner. Workday. Salesforce. Canvas. Slate. Cayuse. Six systems of record that the
@@ -64,7 +64,7 @@ export default function HomePage() {
             </div>
 
             <div className="lg:col-span-5">
-              <div className="bg-white text-[var(--ink)] rounded-sm border border-[var(--hairline)] shadow-xl overflow-hidden">
+              <div className="bg-white text-[var(--ink)] rounded-sm border border-[var(--hairline)] shadow-xl overflow-hidden border-l-4" style={{ borderLeftColor: 'var(--ivy-deep)' }}>
                 <div className="px-5 py-3 border-b border-[var(--hairline)] flex items-center justify-between bg-[var(--paper-deep)]">
                   <div className="eyebrow">Lake Snapshot</div>
                   <div className="text-[10px] font-semibold text-[var(--ink-soft)] uppercase tracking-wider">Snowflake, Iceberg</div>
@@ -216,6 +216,8 @@ export default function HomePage() {
           </ol>
         </div>
       </section>
+
+      <hr className="rule-ornament" />
 
       <section className="bg-[var(--ivy-deep)] text-white border-t border-[var(--hairline)]">
         <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8 text-center">

@@ -14,7 +14,7 @@ export default function PipelinePage() {
   if (!pipeline) return <div className="mx-auto max-w-7xl px-4 py-12"><div className="research-card h-64 animate-pulse" /></div>;
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="animate-entry mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <header className="mb-8 border-b border-[var(--hairline)] pb-6">
         <div className="eyebrow mb-1">Operations</div>
         <h1 className="font-serif text-5xl font-semibold text-[var(--ink-strong)] tracking-tight">Pipeline observability</h1>
@@ -30,12 +30,14 @@ export default function PipelinePage() {
         <div className="research-card overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-[var(--paper-deep)] text-left">
-              <tr><Th>Source</Th><Th>Type</Th><Th>Status</Th><Th>Rows / 24h</Th><Th>Lag (sec)</Th><Th>Last sync</Th></tr>
+              <tr><Th>Source</Th><Th>Type</Th><Th>Status</Th><Th>Rows / 24h</Th><Th>Lag (sec)</Th><Th>Last sync</Th><Th>Fivetran</Th></tr>
             </thead>
             <tbody className="divide-y divide-[var(--hairline-soft)]">
               {pipeline.connectors.map((c: any) => (
                 <tr key={c.name} className="hover:bg-[var(--paper-deep)]/40">
-                  <td className="px-4 py-3 font-serif text-base font-semibold text-[var(--ink-strong)]">{c.name}</td>
+                  <td className="px-4 py-3 font-serif text-base font-semibold text-[var(--ink-strong)]">
+                    <span className="underline-offset-2 hover:underline decoration-[var(--hairline)] cursor-default">{c.name}</span>
+                  </td>
                   <td className="px-4 py-3 text-[var(--ink-muted)] text-xs">{c.type}</td>
                   <td className="px-4 py-3">
                     <span className={`status-pill ${c.status === 'healthy' ? 'good' : c.status === 'warning' ? 'amber' : 'garnet'}`}>{c.status}</span>
@@ -43,6 +45,18 @@ export default function PipelinePage() {
                   <td className="px-4 py-3 tabular">{formatNumber(c.rows_24h)}</td>
                   <td className="px-4 py-3 tabular">{formatNumber(c.lag_seconds)}</td>
                   <td className="px-4 py-3 text-xs text-[var(--ink-soft)] mono">{new Date(c.last_sync).toLocaleString()}</td>
+                  <td className="px-4 py-3">
+                    {c.fivetran_id && (
+                      <a
+                        href={`https://fivetran.com/dashboard/connectors/${c.fivetran_id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 rounded-sm border border-[var(--bronze)]/50 text-[var(--bronze)] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 hover:bg-[var(--bronze-bg)] transition-colors"
+                      >
+                        Open in Fivetran
+                      </a>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -80,7 +94,7 @@ export default function PipelinePage() {
             <tbody className="divide-y divide-[var(--hairline-soft)]">
               {pipeline.dbt_runs_last_24h.map((r: any) => (
                 <tr key={r.model}>
-                  <td className="px-4 py-3 mono text-[var(--ink-strong)]">{r.model}</td>
+                  <td className="px-4 py-3 mono text-[var(--ink-strong)]">{r.model.includes('.') ? r.model.split('.').slice(1).join('.') : r.model}</td>
                   <td className="px-4 py-3"><span className={`status-pill ${r.status === 'pass' ? 'good' : 'garnet'}`}>{r.status}</span></td>
                   <td className="px-4 py-3 tabular">{formatNumber(r.rows)}</td>
                   <td className="px-4 py-3 tabular">{r.duration_s}s</td>
