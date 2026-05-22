@@ -49,6 +49,7 @@ export const api = {
   getExperience:  () => load<any>('/data/experience.json'),
   getPipeline:    () => load<any>('/data/pipeline.json'),
   getIceberg:     () => load<any>('/data/iceberg.json'),
+  getPrograms:    () => load<any>('/data/programs.json'),
 };
 
 // ---- formatters --------------------------------------------------

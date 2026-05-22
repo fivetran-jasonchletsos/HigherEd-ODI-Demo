@@ -7,6 +7,8 @@ const NAV_ITEMS: [string, string][] = [
   ['/enrollment', 'Enrollment'],
   ['/success', 'Student Success'],
   ['/research', 'Research'],
+  ['/programs', 'Programs'],
+  ['/related', 'Program Network'],
   ['/architecture', 'ODI Architecture'],
   ['/pipeline', 'Pipeline'],
   ['/policy', 'Why Higher Ed'],
