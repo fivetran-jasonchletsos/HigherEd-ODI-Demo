@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { api, formatBytes, formatCurrencyShort, formatNumber, formatPercent } from '../api/queries';
 import Sparkline from '../components/Sparkline';
 
@@ -59,6 +59,13 @@ export default function HomePage() {
                   className="inline-flex items-center gap-2 rounded-sm font-semibold text-sm text-white bg-white/5 border border-white/20 px-5 py-3 hover:bg-white/10 transition-colors"
                 >
                   See the ODI architecture <span aria-hidden>→</span>
+                </button>
+                <button
+                  onClick={() => navigate('/dbt-wizard')}
+                  className="inline-flex items-center gap-2 rounded-sm font-semibold text-sm px-5 py-3 hover:bg-[var(--ivy-soft)]/30 transition-colors border border-[#4ade80]/40"
+                  style={{ color: '#4ade80', background: 'rgba(74,222,128,0.08)' }}
+                >
+                  dbt-wizard demo <span aria-hidden>→</span>
                 </button>
               </div>
             </div>
@@ -142,6 +149,50 @@ export default function HomePage() {
             cta="Open research"
             onClick={() => navigate('/research')}
           />
+        </div>
+      </section>
+
+      {/* dbt-wizard hero card */}
+      <section className="mx-auto max-w-7xl px-4 pt-10 pb-2 sm:px-6 lg:px-8">
+        <div
+          className="rounded-lg border border-[var(--hairline)] p-7 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+          style={{ borderLeft: '5px solid var(--ivy)', background: 'rgba(22,101,52,0.03)' }}
+        >
+          <div className="flex-1 min-w-0">
+            <div className="eyebrow mb-2 text-[var(--ivy)]">dbt-wizard · New</div>
+            <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-[var(--ink-strong)] leading-tight">
+              The Provost needs a gold table. The Board meets in 22 hours.
+            </h2>
+            <p className="mt-3 text-base text-[var(--ink-muted)] leading-relaxed max-w-2xl">
+              No <span className="font-mono text-sm">gold.fct_retention_by_school_persona_term</span> exists.
+              Manual ETA: 3 to 5 days. dbt-wizard: 90 seconds.
+              Four sub-agents surface the upstreams, author the SQL, write the contract, and materialize to Iceberg.
+              Root cause: MATH 220 Wednesday-evening section conflict with campus work shifts.{' '}
+              <span className="font-semibold text-[var(--garnet)]">$6M tuition revenue exposure / cohort.</span>
+            </p>
+          </div>
+          <div className="flex flex-col gap-2 shrink-0">
+            <Link
+              to="/dbt-wizard/scenario"
+              className="inline-flex items-center gap-2 rounded-md text-white font-semibold px-6 py-3 hover:opacity-95 transition-opacity whitespace-nowrap"
+              style={{ background: 'var(--ivy-deep)' }}
+            >
+              Read the scenario
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <path d="M5 12h14M13 5l7 7-7 7" />
+              </svg>
+            </Link>
+            <Link
+              to="/dbt-wizard/live"
+              className="inline-flex items-center gap-2 rounded-md font-semibold px-6 py-3 hover:opacity-90 transition-opacity border whitespace-nowrap"
+              style={{ color: 'var(--ivy-deep)', borderColor: 'var(--ivy)', background: 'rgba(22,101,52,0.06)' }}
+            >
+              Watch the live build
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                <path d="M5 12h14M13 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
         </div>
       </section>
 

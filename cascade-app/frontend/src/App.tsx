@@ -13,6 +13,10 @@ import ProgramsPage from './pages/ProgramsPage';
 import ProgramDetailPage from './pages/ProgramDetailPage';
 import RelatedPage from './pages/RelatedPage';
 import NotFoundPage from './pages/NotFoundPage';
+import DbtWizardPage from './pages/DbtWizardPage';
+import WizardScenarioPage from './pages/WizardScenarioPage';
+import WizardLivePage from './pages/WizardLivePage';
+import WizardOutcomePage from './pages/WizardOutcomePage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,6 +41,10 @@ export default function App() {
             <Route path="/programs" element={<ProgramsPage />} />
             <Route path="/programs/:id" element={<ProgramDetailPage />} />
             <Route path="/related" element={<RelatedPage />} />
+            <Route path="/dbt-wizard" element={<DbtWizardPage />} />
+            <Route path="/dbt-wizard/scenario" element={<WizardScenarioPage />} />
+            <Route path="/dbt-wizard/live" element={<WizardLivePage />} />
+            <Route path="/dbt-wizard/outcome" element={<WizardOutcomePage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

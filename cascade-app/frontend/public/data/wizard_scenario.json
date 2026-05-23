@@ -1,0 +1,46 @@
+{
+  "company": "Cascade University",
+  "request_id": "BLD-2026-05-23-0012",
+  "requested_by": "Provost Chen",
+  "requested_at": "2026-05-23T08:04:00-07:00",
+  "timezone_label": "Friday 08:04 PDT",
+  "question": "Why did first-year STEM retention drop 3.8 points for first-gen students in the engineering school, while liberal-arts held?",
+  "metric_label": "Retention by school, student persona, and term",
+  "metric_code": "gold.fct_retention_by_school_persona_term",
+  "sop_meeting_at": "2026-05-24T06:00:00-07:00",
+  "sop_meeting_label": "Saturday 06:00 PDT · Board of Trustees",
+  "target_schema": "gold",
+  "target_model": "fct_retention_by_school_persona_term",
+  "target_grain": "one row per (school, student_persona, term)",
+  "prior_crisis_id": "INC-2026-04-14-0008",
+  "institution": "Cascade University",
+  "school": "College of Engineering",
+  "upstream_models": [
+    {
+      "model": "silver.int_student_term_enrollment",
+      "layer": "intermediate",
+      "grain": "student_id · term",
+      "description": "Banner SIS enrollment spine conformed by Fivetran CDC. Carries school, major, credit_load, and enrollment_status flags for every student-term combination."
+    },
+    {
+      "model": "silver.int_student_academic_record",
+      "layer": "intermediate",
+      "grain": "student_id · term",
+      "description": "Term GPA, DFW rates by course, and cumulative standing. Sourced from Banner grade tables via Fivetran. Joins to enrollment spine on student_id and term."
+    },
+    {
+      "model": "silver.int_student_profile",
+      "layer": "intermediate",
+      "grain": "student_id (SCD-2)",
+      "description": "Conformed student profile from Banner and Workday. Carries first_gen_indicator, pell_eligible, home_zip, and demographic attributes used for equity segment disaggregation."
+    },
+    {
+      "model": "silver.int_course_section",
+      "layer": "intermediate",
+      "grain": "course_section_id",
+      "description": "Canvas LMS plus Banner section master. Carries section meeting_day, meeting_time, instructor_id, and enrollment capacity. The Wednesday-evening section time signal lives here."
+    }
+  ],
+  "manual_time_days": "3 to 5 days",
+  "build_room_seconds": 90
+}

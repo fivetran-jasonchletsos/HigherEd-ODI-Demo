@@ -1,5 +1,19 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { api, formatBytes, formatNumber } from '../api/queries';
+
+// Real Fivetran connector IDs for Cascade University demo environment.
+// Deep-link pattern: https://fivetran.com/dashboard/connectors/{id}/status
+const FIVETRAN_CONNECTOR_IDS: Record<string, string> = {
+  'Banner SIS (Ellucian)':       'obstruct_huddle',
+  'Workday HCM':                 'campsite_rise',
+  'Workday Financials':          'parentheses_congratulating',
+  'Salesforce Education Cloud':  'residual_concluding',
+  'Canvas LMS':                  'passion_cement',
+  'Slate (admissions CRM)':      'cant_ham',
+  'Cayuse Research IS':          'twentyfive_lattice',
+};
+const FIVETRAN_DASHBOARD_URL = 'https://fivetran.com/dashboard/connections';
 
 export default function PipelinePage() {
   const [pipeline, setPipeline] = useState<any>(null);
@@ -46,9 +60,9 @@ export default function PipelinePage() {
                   <td className="px-4 py-3 tabular">{formatNumber(c.lag_seconds)}</td>
                   <td className="px-4 py-3 text-xs text-[var(--ink-soft)] mono">{new Date(c.last_sync).toLocaleString()}</td>
                   <td className="px-4 py-3">
-                    {c.fivetran_id && (
+                    {(c.fivetran_id || FIVETRAN_CONNECTOR_IDS[c.name]) && (
                       <a
-                        href={`https://fivetran.com/dashboard/connectors/${c.fivetran_id}`}
+                        href={`https://fivetran.com/dashboard/connectors/${c.fivetran_id || FIVETRAN_CONNECTOR_IDS[c.name]}/status`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1 rounded-sm border border-[var(--bronze)]/50 text-[var(--bronze)] text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 hover:bg-[var(--bronze-bg)] transition-colors"
@@ -153,6 +167,55 @@ export default function PipelinePage() {
           </div>
         </section>
       )}
+
+      {/* Open in Fivetran — prominent CTA */}
+      <section className="research-card p-6 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <div className="eyebrow mb-1">Fivetran · Connectors</div>
+          <div className="font-serif text-lg font-semibold text-[var(--ink-strong)]">Inspect any connector live</div>
+          <p className="text-sm text-[var(--ink-muted)] mt-0.5">
+            View sync history, schema changes, re-sync controls, and column-level observability in the Fivetran dashboard.
+          </p>
+        </div>
+        <div className="flex items-center gap-3 shrink-0">
+          <a
+            href={FIVETRAN_DASHBOARD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-sm border border-[var(--bronze)] text-[var(--bronze)] font-semibold text-sm px-5 py-2.5 hover:bg-[var(--bronze-bg)] transition-colors"
+          >
+            Open Fivetran dashboard
+            <svg viewBox="0 0 14 14" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="M2 7h10M7 2l5 5-5 5" />
+            </svg>
+          </a>
+        </div>
+      </section>
+
+      {/* dbt-wizard callout */}
+      <section
+        className="research-card p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+        style={{ borderLeft: '4px solid var(--ivy)' }}
+      >
+        <div>
+          <div className="eyebrow mb-1 text-[var(--ivy)]">dbt-wizard · Build-time AI</div>
+          <div className="font-serif text-lg font-semibold text-[var(--ink-strong)]">Gold model missing? Build it in 90 seconds.</div>
+          <p className="text-sm text-[var(--ink-muted)] mt-0.5 max-w-xl">
+            When a Provost question has no gold model to answer it, dbt-wizard's four sub-agents author,
+            test, and materialize one against the same Snowflake account — without touching this pipeline.
+          </p>
+        </div>
+        <Link
+          to="/dbt-wizard"
+          className="inline-flex items-center gap-2 rounded-sm font-semibold text-sm text-white px-5 py-2.5 hover:opacity-95 transition-opacity shrink-0"
+          style={{ background: 'var(--ivy-deep)' }}
+        >
+          See dbt-wizard
+          <svg viewBox="0 0 14 14" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M2 7h10M7 2l5 5-5 5" />
+          </svg>
+        </Link>
+      </section>
     </div>
   );
 }

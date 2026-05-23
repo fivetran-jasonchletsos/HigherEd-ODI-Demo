@@ -1,0 +1,104 @@
+{
+  "materialized_model": "gold.fct_retention_by_school_persona_term",
+  "row_count": 312,
+  "tests_passed": 9,
+  "tests_written": "7 column-level + 1 combination uniqueness + 1 not-null on retention_rate",
+  "build_seconds": 90,
+  "before": {
+    "nodes": [
+      { "id": "int_enrollment",  "name": "silver.int_student_term_enrollment",  "layer": "intermediate" },
+      { "id": "int_academic",    "name": "silver.int_student_academic_record",   "layer": "intermediate" },
+      { "id": "int_profile",     "name": "silver.int_student_profile",           "layer": "intermediate" },
+      { "id": "int_section",     "name": "silver.int_course_section",            "layer": "intermediate" },
+      { "id": "gap",             "name": "gold.fct_retention_by_school_persona_term", "layer": "gap", "built": false }
+    ],
+    "edges": [
+      { "from": "int_enrollment", "to": "gap" },
+      { "from": "int_academic",   "to": "gap" },
+      { "from": "int_profile",    "to": "gap" },
+      { "from": "int_section",    "to": "gap" }
+    ]
+  },
+  "after": {
+    "nodes": [
+      { "id": "int_enrollment",  "name": "silver.int_student_term_enrollment",  "layer": "intermediate" },
+      { "id": "int_academic",    "name": "silver.int_student_academic_record",   "layer": "intermediate" },
+      { "id": "int_profile",     "name": "silver.int_student_profile",           "layer": "intermediate" },
+      { "id": "int_section",     "name": "silver.int_course_section",            "layer": "intermediate" },
+      { "id": "new_gold",        "name": "gold.fct_retention_by_school_persona_term", "layer": "gold", "built": true, "new": true },
+      { "id": "ir_dashboard",    "name": "Institutional Research Dashboard",    "layer": "consumer" },
+      { "id": "board_feed",      "name": "Board of Trustees Briefing Feed",     "layer": "consumer" }
+    ],
+    "edges": [
+      { "from": "int_enrollment", "to": "new_gold" },
+      { "from": "int_academic",   "to": "new_gold" },
+      { "from": "int_profile",    "to": "new_gold" },
+      { "from": "int_section",    "to": "new_gold" },
+      { "from": "new_gold",       "to": "ir_dashboard" },
+      { "from": "new_gold",       "to": "board_feed" }
+    ]
+  },
+  "root_cause": {
+    "headline": "First-gen STEM students enrolled in MATH 220 with a Wednesday-evening discussion section show 41% lower term GPA",
+    "detail": "The section-time conflict with campus part-time-work shifts is the lever. 34 of the 83 first-gen engineering fallout students enrolled in MATH 220 sections meeting Wednesday evenings (17:00–21:00). Campus employment data shows 91% of first-gen students in those sections hold on-campus jobs with Wednesday evening shifts. GPA in the MATH 220 sections meeting Monday/Wednesday morning is statistically indistinguishable between first-gen and continuing-gen. The fix is a section reschedule, not a curriculum redesign.",
+    "affected_cohort": "First-gen STEM students in MATH 220 Wednesday-evening sections, Fall 2025",
+    "fallout_count": 34,
+    "total_reviewed": 83
+  },
+  "without_wizard": {
+    "label": "Without dbt-wizard",
+    "summary": "Question enters the analytics backlog. Board of Trustees convenes without the answer.",
+    "metrics": [
+      { "label": "Time to model",         "value": "3 to 5 days" },
+      { "label": "Engineer hours",         "value": "8 to 14h" },
+      { "label": "Tests written",          "value": "ad-hoc" },
+      { "label": "Lineage entries",        "value": "manual" },
+      { "label": "Documentation",          "value": "PR-time only" },
+      { "label": "Board meeting status",   "value": "no answer" }
+    ],
+    "narrative": [
+      "Provost files the request. It enters the analytics backlog at priority B.",
+      "Institutional Research scopes the work Monday — three days after the board meeting.",
+      "Engineer writes SQL from scratch, joining four silver marts by hand.",
+      "Tests, YAML, and contract get bolted on at PR time. Sometimes.",
+      "Provost cannot isolate root cause before the board convenes.",
+      "Board receives a note: retention analysis pending."
+    ]
+  },
+  "with_wizard": {
+    "label": "With dbt-wizard",
+    "summary": "Four sub-agents surface the upstreams, author the SQL, write the tests, and materialize the asset in 90 seconds.",
+    "metrics": [
+      { "label": "Time to model",         "value": "90 seconds" },
+      { "label": "Engineer hours",         "value": "0.0h authored" },
+      { "label": "Tests written",          "value": "7 column + 1 combination + 1 not-null" },
+      { "label": "Lineage entries",        "value": "auto, 4 upstream" },
+      { "label": "Documentation",          "value": "in YAML on materialize" },
+      { "label": "Board meeting status",   "value": "root cause in hand" }
+    ],
+    "narrative": [
+      "Explorer runs status and search. Returns the four silver upstream candidates.",
+      "Summary runs describe and lineage. Confirms join path and names the new grain.",
+      "Worker runs dbt_show on the Fall 2025 first-year cohort. Validates the proposed grain.",
+      "Worker authors fct_retention_by_school_persona_term.sql with CTEs and final SELECT.",
+      "Verification writes the YAML — description, schema contract, 9 tests, ownership.",
+      "Worker materializes the table to Iceberg. Verification confirms downstream lineage.",
+      "Provost presents root-cause finding to Board of Trustees 22 hours ahead of schedule."
+    ]
+  },
+  "governance": [
+    { "label": "Tests written",              "value": "7 column-level + 1 combination + 1 not-null" },
+    { "label": "Schema contract",            "value": "enforced on materialize" },
+    { "label": "Lineage upstreams",          "value": "4 declared, 4 validated" },
+    { "label": "Documentation",              "value": "auto-written in YAML" },
+    { "label": "Ownership",                 "value": "institutional_research" },
+    { "label": "Tag",                        "value": "ai_built · student_success" },
+    { "label": "Iceberg table format",       "value": "v2 · Parquet · ZSTD" },
+    { "label": "Open Catalog registration",  "value": "complete" }
+  ],
+  "hero": {
+    "label": "Root cause identified 22 hours before the Board of Trustees convenes",
+    "value": "90 seconds",
+    "note": "From Provost question to materialized Iceberg gold table — versioned, tested, documented, lineage-tracked. The engineering school now knows the MATH 220 Wednesday-evening section-time conflict is the gap. The fix is a reschedule, not a curriculum redesign. $6M tuition revenue exposure per cohort is now addressable with a calendar change."
+  }
+}

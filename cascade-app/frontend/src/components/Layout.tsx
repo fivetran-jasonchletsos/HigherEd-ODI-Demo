@@ -11,6 +11,7 @@ const NAV_ITEMS: [string, string][] = [
   ['/related', 'Program Network'],
   ['/architecture', 'ODI Architecture'],
   ['/pipeline', 'Pipeline'],
+  ['/dbt-wizard', 'dbt-wizard'],
   ['/policy', 'Why Higher Ed'],
   ['/about', 'About'],
 ];
@@ -149,7 +150,7 @@ export default function Layout() {
             <div className="eyebrow-light mb-2">Data Pipeline</div>
             <p className="leading-relaxed text-white/70">
               Banner SIS, Workday, Salesforce Education Cloud, Canvas, Slate, Cayuse, Fivetran connectors,
-              Snowflake plus Apache Iceberg on S3, dbt bronze, silver, gold, then Snowflake compute and Cortex agents.
+              Snowflake plus Apache Iceberg on S3, dbt bronze, silver, gold, and dbt-wizard for on-demand gold table authoring.
             </p>
           </div>
           <div>
@@ -161,8 +162,21 @@ export default function Layout() {
           </div>
         </div>
         <div className="border-t border-white/10">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3 text-[11px] text-white/50 flex flex-col sm:flex-row gap-1 sm:items-center sm:justify-between">
-            <div>© 2026 Cascade University ODI Demo, Fivetran Open Data Infrastructure</div>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-3 text-[11px] text-white/50 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3 flex-wrap">
+              <span>© 2026 Cascade University ODI Demo, Fivetran Open Data Infrastructure</span>
+              <a
+                href={`${(import.meta.env.BASE_URL ?? '/').replace(/\/$/, '')}/Cascade-University-3min-Demo-Runbook.pdf`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider border border-[var(--bronze)]/40 text-[#fbd98f]/80 hover:text-[#fbd98f] hover:border-[var(--bronze)]/70 transition-colors"
+              >
+                3-min runbook
+                <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M2 6h8M6 2l4 4-4 4" />
+                </svg>
+              </a>
+            </div>
             <div>Snapshot {snapshotAt ? new Date(snapshotAt).toLocaleString() : '—'}</div>
           </div>
         </div>
