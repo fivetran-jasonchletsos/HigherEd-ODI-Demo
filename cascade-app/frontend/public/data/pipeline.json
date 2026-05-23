@@ -35,7 +35,7 @@
       "rows_24h": 98600,
       "lag_seconds": 45,
       "last_sync": "2026-05-20T12:58:00Z",
-      "fivetran_id": "phone_valet"
+      "fivetran_id": "residual_concluding"
     },
     {
       "name": "Canvas LMS",
@@ -44,7 +44,7 @@
       "rows_24h": 412800,
       "lag_seconds": 90,
       "last_sync": "2026-05-20T12:56:00Z",
-      "fivetran_id": "blest_unlivable"
+      "fivetran_id": "passion_cement"
     },
     {
       "name": "Slate (admissions CRM)",
