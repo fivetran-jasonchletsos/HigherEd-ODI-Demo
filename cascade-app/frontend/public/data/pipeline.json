@@ -53,7 +53,7 @@
       "rows_24h": 64200,
       "lag_seconds": 480,
       "last_sync": "2026-05-20T12:48:00Z",
-      "fivetran_id": "thrice_unvaried"
+      "fivetran_id": "cant_ham"
     },
     {
       "name": "Cayuse Research IS",
@@ -62,7 +62,7 @@
       "rows_24h": 12400,
       "lag_seconds": 120,
       "last_sync": "2026-05-20T12:56:00Z",
-      "fivetran_id": "bottle_handcart"
+      "fivetran_id": "twentyfive_lattice"
     }
   ],
   "layers": [
