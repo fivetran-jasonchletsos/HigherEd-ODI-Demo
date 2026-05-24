@@ -500,11 +500,11 @@ export default function RelatedPage() {
                 </ol>
               </div>
 
-              {/* Cortex note */}
+              {/* Similarity note */}
               <div className="mt-6 border-t border-[var(--hairline)] pt-4">
                 <p className="text-[11px] leading-relaxed text-[var(--ink-soft)]">
                   Graph built from{' '}
-                  <span className="mono text-[var(--bronze)]">CORTEX.EMBED_TEXT_768</span>{' '}
+                  <span className="mono text-[var(--bronze)]">EMBED_TEXT_768</span>{' '}
                   weighted feature similarity — discipline cluster, school, degree level, and
                   persistence profile. Top-{K} neighbors per program, undirected union.
                 </p>

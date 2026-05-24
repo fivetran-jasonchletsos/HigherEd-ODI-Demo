@@ -113,7 +113,7 @@ export default function ProgramDetailPage() {
       <section className="mb-12">
         <div className="mb-5 flex items-end justify-between border-b border-[var(--hairline)] pb-3">
           <div>
-            <div className="eyebrow mb-1">Snowflake Cortex, similarity scoring</div>
+            <div className="eyebrow mb-1">Snowflake reading the gold layer, similarity scoring</div>
             <h2 className="font-serif text-3xl font-semibold text-[var(--ink-strong)] tracking-tight">
               Related programs
             </h2>

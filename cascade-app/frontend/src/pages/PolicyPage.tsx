@@ -60,7 +60,7 @@ export default function PolicyPage() {
         <p>
           Cascade lands every source into Iceberg tables on S3 through Fivetran connectors.
           dbt builds the conformed silver layer and the gold business marts. Snowflake reads the
-          gold marts directly through external tables, with no warehouse round-trip. Cortex agents
+          gold marts directly through external tables, with no warehouse round-trip. Agents over the dbt-governed gold layer
           read the same gold marts. The federal IPEDS submission reads the same gold marts. The
           VP for Research's grant pipeline dashboard reads the same gold marts.
         </p>

@@ -89,7 +89,7 @@ const FLOW = [
   { tag: '02', label: 'Ingest',    body: 'Fivetran lands each source into bronze Iceberg tables on S3, governed by Snowflake Polaris catalog.',           chips: [{ text: 'fivetran', kind: 'bronze' as const }, { text: 'iceberg', kind: 'bronze' as const }] },
   { tag: '03', label: 'Conform',   body: 'dbt builds silver, one canonical student, course, gift, grant, employee.',  chips: [{ text: 'dbt', kind: 'silver' as const }] },
   { tag: '04', label: 'Serve',     body: 'Gold marts power CIO and VP dashboards through Snowflake, Athena, Trino, anything that speaks Iceberg.', chips: [{ text: 'gold', kind: 'gold' as const }] },
-  { tag: '05', label: 'Reason',    body: 'Cortex agents read gold for yield prediction, advising outreach, donor scoring.',     chips: [{ text: 'cortex', kind: 'gold' as const }] },
+  { tag: '05', label: 'Reason',    body: 'Agents over the dbt-governed gold layer drive yield prediction, advising outreach, donor scoring.',     chips: [{ text: 'agents', kind: 'gold' as const }] },
 ];
 
 const SOURCES = [
@@ -105,7 +105,7 @@ const LAYERS = [
   { layer: 'bronze',  chip: 'bronze' as const, title: 'Raw landing',      note: 'Append-only Iceberg, exactly as Fivetran delivered. No transformation, full history.' },
   { layer: 'silver',  chip: 'silver' as const, title: 'Conformed entities', note: 'One student_id, one course_id, one fund_id across all six sources. Slowly-changing dimensions.' },
   { layer: 'gold',    chip: 'gold'   as const, title: 'Business marts',   note: 'Yield prediction, at-risk roster, grant pipeline, donor capacity, operating budget actuals.' },
-  { layer: 'agent',   chip: 'gold'   as const, title: 'Agent surface',    note: 'Snowflake Cortex semantic model, governed, every metric defined once, reused everywhere.' },
+  { layer: 'agent',   chip: 'gold'   as const, title: 'Agent surface',    note: 'Snowflake semantic model on the dbt-governed layer, governed, every metric defined once, reused everywhere.' },
 ];
 
 const STACK = [
@@ -114,7 +114,7 @@ const STACK = [
   { layer: 'Format',    name: 'Apache Iceberg v2',              note: 'Parquet files, ZSTD-compressed. Time-travel, schema evolution, ACID.' },
   { layer: 'Catalog',   name: 'Snowflake Polaris + AWS Glue',   note: 'Open catalog, externally readable by any Iceberg-compatible engine.' },
   { layer: 'Transform', name: 'dbt',                            note: '142 models, bronze, silver, gold layers, tested in CI.' },
-  { layer: 'Compute',   name: 'Snowflake',                      note: 'Native + Iceberg external tables. Cortex agents read gold directly.' },
+  { layer: 'Compute',   name: 'Snowflake',                      note: 'Native + Iceberg external tables. Snowflake reads the gold layer directly.' },
   { layer: 'Frontend',  name: 'React 19 + Vite + Tailwind v4',  note: 'Static SPA on GitHub Pages, reads JSON snapshot.' },
-  { layer: 'Agents',    name: 'Snowflake Cortex',               note: 'Claude Opus 4.7 used for yield prediction, advising outreach, donor capacity scoring.' },
+  { layer: 'Agents',    name: 'Agents over the gold layer',      note: 'Claude Opus 4.7 used for yield prediction, advising outreach, donor capacity scoring.' },
 ];

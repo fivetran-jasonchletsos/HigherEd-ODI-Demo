@@ -4,7 +4,7 @@
 // feature-vector overlap across discipline cluster, school/college, degree
 // level, enrollment-size band, and persistence/retention tier.
 //
-// Mirrors what a Cortex embedding pipeline would produce in production —
+// Mirrors what an embedding pipeline would produce in production —
 // the similarity runs locally so the static site ships the constellation
 // without a runtime API call.
 

@@ -255,7 +255,7 @@ export default function HomePage() {
               { tag: '02', label: 'Ingest',  desc: 'Fivetran lands every source into bronze Iceberg tables on S3, governed by Snowflake Polaris.', accent: 'bronze' as const },
               { tag: '03', label: 'Conform', desc: 'dbt builds silver conformed entities, one student, one course, one gift, one grant.',            accent: 'silver' as const },
               { tag: '04', label: 'Serve',   desc: 'gold marts power CIO, VP Enrollment, VP Research, and Advancement dashboards.',                  accent: 'gold' as const },
-              { tag: '05', label: 'Reason',  desc: 'Snowflake Cortex agents read gold tables for yield prediction, advising outreach, donor scoring.', accent: 'gold' as const },
+              { tag: '05', label: 'Reason',  desc: 'Agents over the dbt-governed gold layer drive yield prediction, advising outreach, donor scoring.', accent: 'gold' as const },
             ].map((s) => (
               <li key={s.tag} className="research-card p-4 hover:border-[var(--bronze)] transition-colors">
                 <div className="text-[10px] font-mono font-bold text-[var(--bronze)] tracking-wider">{s.tag}</div>
