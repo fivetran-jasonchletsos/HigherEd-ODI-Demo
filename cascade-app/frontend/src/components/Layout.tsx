@@ -11,7 +11,9 @@ const NAV_ITEMS: [string, string][] = [
   ['/related', 'Program Network'],
   ['/architecture', 'ODI Architecture'],
   ['/pipeline', 'Pipeline'],
-  ['/dbt-wizard', 'dbt-wizard'],
+  ['/dbt-wizard/scenario', 'Scenario'],
+  ['/dbt-wizard/live', 'Live'],
+  ['/dbt-wizard/outcome', 'Outcome'],
   ['/policy', 'Why Higher Ed'],
   ['/about', 'About'],
 ];
