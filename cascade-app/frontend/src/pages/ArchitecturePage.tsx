@@ -13,8 +13,8 @@ import { useState, useEffect } from 'react';
 import { AliveMedallion, type SourceNode, type EngineNode, type ConsumerRole } from '../components/AliveMedallion';
 
 const HED_SOURCES: SourceNode[] = [
-  { id: 'sis',    label: 'SIS / Banner',       sub: 'SQL Server log-CDC',     logo: 'sqlserver', freshness: '49s lag',  status: 'healthy' },
-  { id: 'grants', label: 'Research Grants',    sub: 'Oracle LogMiner',         logo: 'oracle',    freshness: '3 min lag', status: 'healthy' },
+  { id: 'sis',    label: 'SIS / Banner',       sub: 'SQL Server log-CDC',     logo: 'sqlserver', freshness: '49s lag',  status: 'healthy', pipelineUrl: 'https://fivetran.com/dashboard/connectors/tarmac_abounded' },
+  { id: 'grants', label: 'Research Grants',    sub: 'Oracle Binary Log Reader',         logo: 'oracle',    freshness: '3 min lag', status: 'healthy', pipelineUrl: 'https://fivetran.com/dashboard/connectors/sinking_gala' },
   { id: 'lms',    label: 'LMS Activity',       sub: 'Real-time event stream',  logo: 'hl7',       freshness: 'live',      status: 'healthy', streaming: true },
   { id: 'ipeds',  label: 'IPEDS Reporting',    sub: 'Annual federal feed',     logo: 'cms',       freshness: '60d lag',  status: 'healthy' },
 ];
@@ -335,7 +335,9 @@ export default function ArchitecturePage() {
             <p className="text-sm text-[var(--ink-muted)] mt-1">
               Tests defined in dbt Labs run on every build, against the same Iceberg tables every
               engine reads. Failures block promotion to the next layer &mdash; bad data never
-              reaches the registrar.
+              reaches the registrar. Paired with the Great Expectations checkpoints below: GX runs
+              suite-based expectations against raw landings; dbt enforces SQL-native contracts
+              across bronze, silver, and gold.
             </p>
           </div>
           <div className="inline-flex items-center gap-1.5 rounded-sm px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white shrink-0" style={{ background: '#FF694A' }}>
@@ -380,6 +382,8 @@ export default function ArchitecturePage() {
           <span className="uppercase tracking-wider font-semibold">dbt build · merged into Fivetran</span>
         </div>
       </section>
+
+      <GreatExpectationsPanel />
 
       <BeforeAfterPanel />
     </div>
@@ -696,6 +700,205 @@ function Policy({ label, value }: { label: string; value: string }) {
         <span className="text-[var(--ink-muted)]"> · {value}</span>
       </div>
     </li>
+  );
+}
+
+// =============================================================================
+// GreatExpectationsPanel — Fivetran-stewarded OSS data-quality gate
+// =============================================================================
+interface GxSuite {
+  suite: string;
+  table: string;
+  layer: 'bronze' | 'silver' | 'gold';
+  expectations: number;
+  passing: number;
+  last_run: string;
+  why: string;
+}
+
+const GX_SUITES: GxSuite[] = [
+  {
+    suite: 'banner_student_completeness',
+    table: 'bronze.banner__student',
+    layer: 'bronze',
+    expectations: 9,
+    passing: 9,
+    last_run: '12m ago',
+    why: 'student_id not-null + unique, dob within registrar plausibility window, FERPA-tagged columns present, residency_code in approved set.',
+  },
+  {
+    suite: 'banner_enrollment_referential',
+    table: 'bronze.banner__enrollment',
+    layer: 'bronze',
+    expectations: 7,
+    passing: 6,
+    last_run: '9m ago',
+    why: 'enrollment.student_id resolves to bronze.banner__student; course_section_id resolves to bronze.banner__course_section; term in current academic-calendar dim.',
+  },
+  {
+    suite: 'banner_grade_value_set',
+    table: 'bronze.banner__grade_event',
+    layer: 'bronze',
+    expectations: 5,
+    passing: 5,
+    last_run: '12m ago',
+    why: 'grade_letter ∈ {A,A-,B+,B,B-,C+,C,C-,D+,D,F,W,I,P,NP,AU}; gpa_points in [0.0, 4.0]; final_grade_flag boolean.',
+  },
+  {
+    suite: 'aid_financial_ranges',
+    table: 'bronze.banner__financial_aid',
+    layer: 'bronze',
+    expectations: 6,
+    passing: 6,
+    last_run: '14m ago',
+    why: 'efc in [0, 99999]; pell_award_amount in [0, 7395]; aid_year matches federal cycle; FAFSA application_status ∈ accepted set.',
+  },
+  {
+    suite: 'course_section_capacity',
+    table: 'silver.int_course_enrollment',
+    layer: 'silver',
+    expectations: 4,
+    passing: 4,
+    last_run: '8m ago',
+    why: 'enrollment_count ≤ section_capacity; waitlist_count ≥ 0; section_capacity > 0 for active sections.',
+  },
+  {
+    suite: 'lms_activity_event_quality',
+    table: 'bronze.lms__activity_event',
+    layer: 'bronze',
+    expectations: 5,
+    passing: 5,
+    last_run: '7m ago',
+    why: 'event_timestamp within last 36h of ingest; user_id resolves to dim_students; event_type ∈ Canvas-emitted enum; session duration positive.',
+  },
+  {
+    suite: 'gold_students_pii_governance',
+    table: 'gold.dim_students',
+    layer: 'gold',
+    expectations: 6,
+    passing: 6,
+    last_run: '5m ago',
+    why: 'ssn_last4 + dob_year masked per FERPA policy; legal_name nullable for FERPA-block holds; advisor_id resolves to dim_faculty; cohort_id present.',
+  },
+  {
+    suite: 'retention_cohort_cardinality',
+    table: 'gold.fct_retention_signals',
+    layer: 'gold',
+    expectations: 4,
+    passing: 4,
+    last_run: '5m ago',
+    why: 'one row per (student_id, term) — no duplicates; cohort_year matches term start year; retention_status ∈ {persisted, transferred, stopped_out, graduated}.',
+  },
+];
+
+function GreatExpectationsPanel() {
+  const totals = GX_SUITES.reduce(
+    (a, s) => ({ exp: a.exp + s.expectations, pass: a.pass + s.passing, suites: a.suites + 1 }),
+    { exp: 0, pass: 0, suites: 0 },
+  );
+  const warns = totals.exp - totals.pass;
+
+  return (
+    <section className="mb-8 clinical-card overflow-hidden" style={cardStyle}>
+      <header className="clinical-card-header flex items-start justify-between gap-4" style={cardHeaderStyle}>
+        <div>
+          <div className="eyebrow" style={{ color: '#9a3412' }}>Data Quality · Great Expectations</div>
+          <h2 className="font-serif text-xl font-semibold text-[var(--ink-strong)] mt-0.5">
+            Validation runs on Bronze before anything reaches Silver.
+          </h2>
+          <p className="text-sm text-[var(--ink-muted)] mt-1 max-w-3xl">
+            Expectation suites define what "valid" looks like for each higher-ed table —
+            student-record completeness, enrollment referential integrity, FERPA-tagged PII presence,
+            FAFSA/EFC plausibility, and retention-cohort cardinality. A failed expectation blocks
+            promotion. Same lake, same Iceberg snapshots, just gated.
+          </p>
+        </div>
+        <div className="flex flex-col items-end gap-1.5 shrink-0">
+          <div className="inline-flex items-center gap-1.5 rounded-sm px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white" style={{ background: '#9a3412' }}>
+            GX Core · OSS
+          </div>
+          <div className="text-[10px] text-[var(--ink-soft)] font-mono">Fivetran-stewarded</div>
+        </div>
+      </header>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 divide-y-0 md:divide-x divide-[var(--hairline-soft,#e8e4d8)]">
+        <RecoveryTile label="Expectation suites"     big={String(totals.suites)} sub="across bronze · silver · gold layers" />
+        <RecoveryTile label="Expectations · today"   big={`${totals.pass}/${totals.exp}`} sub={`${warns} warn · 0 errors · gates Silver promotion`} color={warns ? '#b45309' : '#16a34a'} />
+        <RecoveryTile label="Checkpoint cadence"     big="every sync" sub="triggered by Fivetran sync-complete · runs before dbt build" />
+        <RecoveryTile label="Failed-expectation queue" big="3 rows" sub="enrollment FK misses · held in dlq.gx_quarantine · auto-retried after suite update" color="#b45309" />
+      </div>
+
+      <div className="overflow-x-auto border-t border-[var(--hairline-soft,#e8e4d8)]">
+        <table className="min-w-full text-sm" style={{ fontVariantNumeric: 'tabular-nums' }}>
+          <thead className="border-b border-[var(--hairline)]" style={{ background: 'var(--paper-deep,#f4efe2)' }}>
+            <tr>
+              <Th>Layer</Th><Th>Suite</Th><Th>Table under test</Th><Th align="right">Expectations</Th><Th align="right">Last run</Th><Th>What it asserts</Th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[var(--hairline-soft,#e8e4d8)]">
+            {GX_SUITES.map((s) => {
+              const ok = s.passing === s.expectations;
+              return (
+                <tr key={s.suite} className="hover:bg-[var(--paper-deep,#f4efe2)] cursor-default">
+                  <td className="px-4 py-2.5"><LayerChip layer={s.layer} /></td>
+                  <td className="px-4 py-2.5 font-mono text-[12px] text-[var(--ink-strong)]">{s.suite}</td>
+                  <td className="px-4 py-2.5 text-xs text-[var(--ink-muted)] font-mono">{s.table}</td>
+                  <td className="px-4 py-2.5 text-right font-semibold" style={{ color: ok ? '#16a34a' : '#b45309' }}>
+                    {s.passing}/{s.expectations}
+                    {!ok && <span className="ml-1 text-[10px] uppercase tracking-wider">warn</span>}
+                  </td>
+                  <td className="px-4 py-2.5 text-right text-xs text-[var(--ink-muted)] font-mono">{s.last_run}</td>
+                  <td className="px-4 py-2.5 text-xs text-[var(--ink)] leading-snug max-w-md">{s.why}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-0 divide-y md:divide-y-0 md:divide-x divide-[var(--hairline-soft,#e8e4d8)] border-t border-[var(--hairline-soft,#e8e4d8)]">
+        <div className="p-5">
+          <div className="text-[10px] uppercase tracking-[0.16em] text-[var(--ink-soft)] font-semibold mb-3">Sample expectation suite · banner_enrollment_referential</div>
+          <pre className="font-mono text-[11.5px] leading-relaxed overflow-x-auto rounded-sm p-3" style={{ background: '#0b2545', color: '#e6e9f0' }}><code>{`# banner_enrollment_referential.yml
+expectation_suite_name: banner_enrollment_referential
+data_asset_name: bronze.banner__enrollment
+
+expectations:
+  - expect_column_values_to_not_be_null:
+      column: student_id
+  - expect_column_values_to_be_in_set:
+      column: enrollment_status
+      value_set: [enrolled, withdrawn, audit, pending]
+  - expect_column_pair_values_to_be_in_set:
+      column_A: course_section_id
+      column_B: term
+      value_pairs_set: "{{ active_sections }}"
+  - expect_table_row_count_to_be_between:
+      min_value: 1500000
+      max_value: 2200000
+  - expect_column_values_to_match_regex:
+      column: term
+      regex: "^[0-9]{4}(SP|SU|FA|WI)$"
+`}</code></pre>
+        </div>
+        <div className="p-5">
+          <div className="text-[10px] uppercase tracking-[0.16em] text-[var(--ink-soft)] font-semibold mb-3">How this fits the stack</div>
+          <ul className="space-y-2.5 text-sm">
+            <Policy label="Fivetran moves" value="Banner SIS, Canvas LMS, Cayuse RIS, IPEDS into Bronze (Iceberg)" />
+            <Policy label="Great Expectations validates" value="Bronze landings against suites before Silver promotion" />
+            <Policy label="dbt transforms" value="Silver + Gold marts; dbt tests assert SQL-level constraints" />
+            <Policy label="Failed rows" value="route to dlq.gx_quarantine on the same lake; retried after suite update" />
+            <Policy label="Open source" value="GX Core remains community-driven; Fivetran funds maintenance, ecosystem, and engineering investment" />
+            <Policy label="Community" value="github.com/great-expectations/great_expectations · thousands of teams use GX outside Fivetran's customer base" />
+          </ul>
+          <div className="mt-4 pt-3 border-t border-[var(--hairline-soft,#e8e4d8)] text-[11px] text-[var(--ink-soft)] leading-relaxed">
+            On May 13, 2026 Fivetran announced it is becoming steward of the Great Expectations open
+            source community and the GX Core project, supporting ongoing maintenance, ecosystem
+            integrations, and community engagement. Same open project, backed by sustained engineering.
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
