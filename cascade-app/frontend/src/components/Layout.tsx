@@ -252,8 +252,9 @@ export default function Layout() {
           <div>
             <div className="eyebrow-light mb-2">Data Pipeline</div>
             <p className="leading-relaxed text-white/70">
-              Banner SIS, Workday, Salesforce Education Cloud, Canvas, Slate, Cayuse, Fivetran connectors,
-              Snowflake plus Apache Iceberg on S3, dbt bronze, silver, gold, and dbt-wizard for on-demand gold table authoring.
+              Banner SIS, Workday, Salesforce Education Cloud, Canvas, Slate, Cayuse → Fivetran →
+              Iceberg on S3 → dbt → Great Expectations → Snowflake / Athena / Trino → Cortex.
+              dbt Wizard authors gold tables on demand.
             </p>
           </div>
           <div>

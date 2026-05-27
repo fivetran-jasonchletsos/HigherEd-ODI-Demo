@@ -1,5 +1,5 @@
 // ============================================================
-// API helpers, read static JSON snapshots built from the
+// API helpers, read the gold layer built from the
 // Snowflake + Iceberg gold layer.
 // ============================================================
 
@@ -21,7 +21,7 @@ const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 async function fetchJson<T>(path: string): Promise<T> {
   const url = `${BASE}${path}`;
-  const res = await fetch(url, { cache: 'no-cache' });
+  const res = await fetch(url);
   if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
   return (await res.json()) as T;
 }
