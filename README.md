@@ -27,7 +27,7 @@ Six systems of record, lake-centric.
 2. **Ingest:** Fivetran connectors land bronze Iceberg tables on S3, governed by Snowflake Polaris
 3. **Conform:** dbt builds silver, one student, one course, one gift, one grant
 4. **Serve:** Gold marts powering CIO and VP dashboards through Snowflake
-5. **Reason:** Snowflake Cortex agents for yield prediction, advising outreach, donor capacity scoring
+5. **Reason:** dbt-wizard run-time agents for yield prediction, advising outreach, donor capacity scoring. Humans and agents read the same gold layer
 
 ## Run locally
 

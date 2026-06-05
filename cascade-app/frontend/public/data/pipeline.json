@@ -2,6 +2,24 @@
   "generated_at": "2026-05-20T13:00:00Z",
   "connectors": [
     {
+      "name": "SIS Banner (SQL Server)",
+      "type": "Database connector, Oracle CDC",
+      "status": "healthy",
+      "rows_24h": 184200,
+      "lag_seconds": 28,
+      "last_sync": "2026-05-24T06:00:00Z",
+      "fivetran_id": "tarmac_abounded"
+    },
+    {
+      "name": "Research Grants (Oracle)",
+      "type": "Database connector, Oracle CDC",
+      "status": "healthy",
+      "rows_24h": 184200,
+      "lag_seconds": 28,
+      "last_sync": "2026-05-24T06:00:00Z",
+      "fivetran_id": "sinking_gala"
+    },
+    {
       "name": "Banner SIS (Ellucian)",
       "type": "Database connector, Oracle CDC",
       "status": "healthy",

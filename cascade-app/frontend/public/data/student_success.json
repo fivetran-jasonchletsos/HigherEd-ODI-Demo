@@ -43,7 +43,7 @@
   },
   "agent_recommendation": {
     "name": "Advising Outreach Agent",
-    "model": "Snowflake Cortex Agent · claude-opus-4.7",
+    "model": "dbt-wizard run-time agent · claude-opus-4.7",
     "last_run": "2026-05-20T07:02:00Z",
     "summary": "1,204 students currently exhibit two or more early-alert signals. 184 require immediate advising contact; predicted persistence lift if contacted in 7 days: +18.4%. Highest-leverage course is CHEM 121 — three sections show DFW above 30%; recommend pairing supplemental instruction with advising outreach.",
     "outreach_queue": 184,
