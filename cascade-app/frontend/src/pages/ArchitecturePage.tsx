@@ -10,7 +10,9 @@
 // renders cleanly even when connectors are paused.
 
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { AliveMedallion, type SourceNode, type EngineNode, type ConsumerRole } from '../components/AliveMedallion';
+import ProductStageRail from '../components/ProductStageRail';
 
 const HED_SOURCES: SourceNode[] = [
   { id: 'sis',    label: 'SIS / Banner',       sub: 'SQL Server log-CDC',     logo: 'sqlserver', freshness: '49s lag',  status: 'healthy', pipelineUrl: 'https://fivetran.com/dashboard/connectors/tarmac_abounded' },
@@ -203,6 +205,8 @@ export default function ArchitecturePage() {
           From Banner SIS + four open sources to one governed gold layer
         </h2>
 
+        <ProductStageRail accent="#0e7490" />
+
         <AliveMedallion
           sources={HED_SOURCES}
           bronze={{ ...layerStats('bronze'), trend: [180, 195, 210, 222, 240, 255, 270] }}
@@ -382,6 +386,9 @@ export default function ArchitecturePage() {
           <span className="uppercase tracking-wider font-semibold">dbt build · merged into Fivetran</span>
         </div>
       </section>
+
+      {/* ── Activations — NewCo native reverse-ETL, right after Transformations ── */}
+      <ActivationsPanel />
 
       <GreatExpectationsPanel />
 
@@ -903,6 +910,65 @@ expectations:
 }
 
 // =============================================================================
+// ActivationsPanel — NewCo Activations, the native reverse-ETL stage that
+// sits directly after Transformations. TRIGGER / DESTINATION / OUTCOME below
+// are vertical-specific to Cascade University's retention-risk-to-advisor
+// early-alert workflow.
+// =============================================================================
+function ActivationsPanel() {
+  // TRIGGER — the gold-layer condition that fires the sync
+  const TRIGGER = "gold.fct_retention_signals flags a newly-crossed retention_risk_score >= 80 — a composite of dfw_count_term >= 2, a 7-day LMS engagement drop of 40%+, and a missed scheduled advising touch — on a student whose advising_case_status isn't already 'open', so advisors never get a duplicate alert for the same student.";
+  // DESTINATION — the downstream system NewCo Activations pushes into
+  const DESTINATION = 'EAB Navigate360 · Student Case';
+  // OUTCOME — the business payoff the SE narrates
+  const OUTCOME = "For the 1,204 students already flagged in gold.fct_retention_signals, median time from risk-detection to first advisor contact drops from 9 days (manual Monday CSV export/re-key into Navigate360) to under 15 minutes. 48-hour advisor-contact completion rises from 41% to 92%. Cascade's persistence model attributes a 3.2-point retention lift to contact within 48 hours of flagging — worth roughly $1.1M in preserved tuition per term across the flagged cohort.";
+
+  return (
+    <section className="mb-8 clinical-card overflow-hidden" style={cardStyle}>
+      <header className="clinical-card-header flex items-start justify-between gap-4" style={cardHeaderStyle}>
+        <div>
+          <div className="eyebrow" style={{ color: '#0e7490' }}>Activations · NewCo</div>
+          <h2 className="font-serif text-xl font-semibold text-[var(--ink-strong)] mt-0.5">
+            The gold layer doesn't just get queried. It gets acted on.
+          </h2>
+          <p className="text-sm text-[var(--ink-muted)] mt-1 max-w-3xl">
+            Activations is the fourth native stage in NewCo, immediately after Transformations. It
+            reads straight from the same Iceberg gold tables dbt just built and syncs the result to
+            an operational system of record &mdash; no separate reverse-ETL vendor, no second copy of
+            the data, no second connector to maintain.
+          </p>
+        </div>
+        <div className="inline-flex items-center gap-1.5 rounded-sm px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white shrink-0" style={{ background: '#0e7490' }}>
+          Activations
+        </div>
+      </header>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[var(--hairline-soft,#ece8d6)]">
+        <div className="p-5">
+          <div className="text-[10px] uppercase tracking-[0.16em] text-[var(--ink-soft)] font-semibold mb-2">Trigger · gold layer</div>
+          <p className="text-sm text-[var(--ink)] leading-relaxed">{TRIGGER}</p>
+        </div>
+        <div className="p-5">
+          <div className="text-[10px] uppercase tracking-[0.16em] text-[var(--ink-soft)] font-semibold mb-2">Destination</div>
+          <p className="text-sm text-[var(--ink)] leading-relaxed font-mono">{DESTINATION}</p>
+        </div>
+        <div className="p-5">
+          <div className="text-[10px] uppercase tracking-[0.16em] text-[var(--ink-soft)] font-semibold mb-2">Outcome</div>
+          <p className="text-sm text-[var(--ink)] leading-relaxed">{OUTCOME}</p>
+        </div>
+      </div>
+
+      <div className="px-5 py-3 border-t border-[var(--hairline-soft,#ece8d6)] flex items-center justify-between text-[11px] text-[var(--ink-soft)]" style={{ background: 'var(--paper-deep,#f1efe2)' }}>
+        <span>Connections &rarr; Destinations &rarr; Transformations &rarr; <strong style={{ color: '#0e7490' }}>Activations</strong> &middot; one platform, one lineage graph</span>
+        <Link to="/activations-live" className="uppercase tracking-wider font-semibold hover:underline" style={{ color: '#0e7490' }}>
+          Watch it sync &rarr;
+        </Link>
+      </div>
+    </section>
+  );
+}
+
+// =============================================================================
 // BeforeAfterPanel
 // =============================================================================
 function BeforeAfterPanel() {
@@ -920,6 +986,12 @@ function BeforeAfterPanel() {
           <div><div className="text-[var(--ink-soft)] text-xs">Avg end-to-end latency</div><div className="font-serif text-2xl font-semibold text-[var(--ink-strong)]">14 hr</div></div>
           <div><div className="text-[var(--ink-soft)] text-xs">Daily run-rate</div><div className="font-serif text-2xl font-semibold text-[var(--ink-strong)]">$12.60</div></div>
           <div><div className="text-[var(--ink-soft)] text-xs">Schema change</div><div className="font-serif text-lg font-semibold text-[var(--ink-strong)]">6-min lock</div></div>
+          <div className="col-span-2 pt-3 mt-1 border-t border-[var(--hairline-soft,#e8e4d8)]">
+            <div className="text-[var(--ink-soft)] text-xs">Reverse-ETL hop</div>
+            <div className="font-serif text-lg font-semibold text-[var(--ink-strong)]">
+              Census + Hightouch <span className="text-xs font-sans font-normal text-[var(--ink-soft)]">(3rd-party, one more copy)</span>
+            </div>
+          </div>
         </div>
       </div>
       <div className="clinical-card p-6 border-l-4" style={{ ...cardStyle, borderLeftColor: '#14532d' }}>
@@ -929,12 +1001,19 @@ function BeforeAfterPanel() {
        → dbt → Iceberg silver
        → dbt → Iceberg gold
        ↳ Snowflake · Athena · DuckDB · Trino · Spark
-         (all reading the same bytes, no copies)`}</pre>
+         (all reading the same bytes, no copies)
+       → NewCo Activations (native) → EAB Navigate360`}</pre>
         <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
           <div><div className="text-[var(--ink-soft)] text-xs">Copies of the data</div><div className="font-serif text-2xl font-semibold" style={{ color: '#14532d' }}>1</div></div>
           <div><div className="text-[var(--ink-soft)] text-xs">Avg end-to-end latency</div><div className="font-serif text-2xl font-semibold" style={{ color: '#14532d' }}>6 min</div></div>
           <div><div className="text-[var(--ink-soft)] text-xs">Daily run-rate</div><div className="font-serif text-2xl font-semibold" style={{ color: '#14532d' }}>$4.03</div></div>
           <div><div className="text-[var(--ink-soft)] text-xs">Schema change</div><div className="font-serif text-lg font-semibold" style={{ color: '#14532d' }}>milliseconds</div></div>
+          <div className="col-span-2 pt-3 mt-1 border-t border-[var(--hairline-soft,#ece8d6)]">
+            <div className="text-[var(--ink-soft)] text-xs">Reverse-ETL hop</div>
+            <div className="font-serif text-lg font-semibold" style={{ color: '#14532d' }}>
+              NewCo Activations <span className="text-xs font-sans font-normal text-[var(--ink-soft)]">(native, zero extra copies)</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
